@@ -4,13 +4,12 @@ const router = express.Router();
 require("dotenv").config();
 
 const config = require("./config");
-const db = require("./db");
+const connectDB = require("./db");
 const routes = require("./network/routes");
 
 const app = express();
-const { dbUri, port, host } = config;
+const { dbUriClient, dbUriCompany, port, host } = config;
 
-db(dbUri);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,6 +22,12 @@ app.get("/*", function (req, res) {
   res.sendFile("public/index.html", { root: __dirname });
 });
 
-app.listen(port, () => {
-  console.log(`App listening on ${host}:${port}`);
+connectDB(dbUriCompany, "company").then((companyCluster) => {
+  app.locals.coCluster = companyCluster;
+  connectDB(dbUriClient, "client").then((clientsCluster) => {
+    app.locals.cliCluster = clientsCluster;
+    app.listen(port, () => {
+      console.log(`App listening on ${host}:${port}`);
+    });
+  });
 });

@@ -1,9 +1,9 @@
-const free = require("../components/free/network");
-const personalized = require("../components/personalized/network");
+const client = require("../components/client/router");
+const company = require("../components/company/router");
 
 const routes = function (server) {
-  server.use("/free", free);
-  server.use("/personalized", personalized);
+  server.use("/client", client);
+  server.use("/company", company);
 };
 
 module.exports = routes;

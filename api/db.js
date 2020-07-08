@@ -1,15 +1,14 @@
 const MongoClient = require("mongodb").MongoClient;
-
-async function connectDB(uri) {
-  const client = new MongoClient(uri, {
+async function connectDB(uri, clusterName) {
+  const mongo = new MongoClient(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-  await client.connect((err) => {
-    if (err) throw err;
-    console.log("DB succesfully connected");
-    client.close();
-  });
+  const db = await mongo.connect();
+  if (db !== undefined) {
+    console.log(`Successfuly connected to ${clusterName} cluster`);
+    return db;
+  }
 }
 
 module.exports = connectDB;
