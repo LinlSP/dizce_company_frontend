@@ -7,9 +7,9 @@ export const Login = () => {
   var message = "wrong password";
   const onSubmit = (e) => {
     e.preventDefault();
-    const user = document.querySelector("#user").value;
+    const nick = document.querySelector("#nick").value;
     const password = document.querySelector("#password").value;
-    console.log(user, password);
+    console.log(nick, password);
   };
 
   return (
@@ -19,10 +19,10 @@ export const Login = () => {
         Admin
       </Title>
       <Input
-        id="user"
+        id="nick"
         className="form-control"
         type="text"
-        placeholder="USER"
+        placeholder="nick"
         required
       />
       <Input

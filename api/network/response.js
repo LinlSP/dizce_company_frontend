@@ -19,15 +19,15 @@ exports.success = function (req, res, message, status) {
 
   res.status(statusCode).send({
     error: "",
-    body: statusMessage,
+    message: statusMessage,
   });
 };
 
-exports.error = function (req, res, message, status, details) {
-  console.error("[response error] " + details);
+exports.error = function (req, res, message, status) {
+  console.error("[response error] " + message);
 
   res.status(status || 500).send({
     error: message,
-    body: "",
+    message: "",
   });
 };

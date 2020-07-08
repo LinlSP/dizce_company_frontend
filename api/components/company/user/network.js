@@ -14,7 +14,7 @@ router.post("/", (req, res) => {
       response.success(req, res, msg, 200);
     })
     .catch((error) => {
-      response.error(req, res, "Internal Error", 500, error);
+      response.error(req, res, error, 500);
     });
 });
 
