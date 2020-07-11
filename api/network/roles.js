@@ -1,16 +1,13 @@
 ////You pass a parameter (role) and it returns and array with the permissions of that role
-module.exports = (role) => {
-  var permissions = [];
-  const accessTo = () => {
-    switch (role) {
-      case "admin":
-        return ["CLIENTSTORE, CLIENTFREE"];
-      case "free-admin":
-        return ["CLIENTFREE"];
-      default:
-        return [];
-    }
-  };
-  permissions.push(...accessTo);
-  return permissions;
-};
+function grantAccess(role) {
+  switch (role) {
+    case "admin":
+      return ["LOGIN", "ADDUSER", "CLIENTSTORE", "CLIENTFREE"];
+    case "free-admin":
+      return ["LOGIN", "CLIENTFREE"];
+    default:
+      return ["LOGIN"];
+  }
+}
+
+module.exports = grantAccess;

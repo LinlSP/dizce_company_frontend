@@ -26,7 +26,7 @@ export const Error = () => {
         bgcolor="black"
       >
         <Icon src={errorSrc} />
-        <Text>An error has ocurred :(</Text>
+        <Text>Something went wrong :(</Text>
       </Container>
     </>
   );

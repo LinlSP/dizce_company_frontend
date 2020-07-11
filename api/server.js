@@ -18,16 +18,21 @@ routes(router);
 app.use("/api", router);
 
 app.use(express.static("public"));
+
+///////
 app.get("/*", function (req, res) {
   res.sendFile("public/index.html", { root: __dirname });
 });
-
-connectDB(dbUriCompany, "company").then((companyCluster) => {
-  app.locals.coCluster = companyCluster;
-  connectDB(dbUriClient, "client").then((clientsCluster) => {
+//////
+(async () => {
+  try {
+    const companyCluster = await connectDB(dbUriCompany, "company");
+    const clientsCluster = await connectDB(dbUriClient, "client");
+    app.locals.coCluster = companyCluster;
     app.locals.cliCluster = clientsCluster;
-    app.listen(port, () => {
-      console.log(`App listening on ${host}:${port}`);
-    });
-  });
-});
+    await app.listen(port);
+    console.log(`App listening on ${host}:${port}`);
+  } catch (error) {
+    console.log(error);
+  }
+})();
