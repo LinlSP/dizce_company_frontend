@@ -3,10 +3,12 @@ const response = require("../../../network/response");
 const controller = require("./controller");
 const authenticate = require("../../../middlewares/authenticate");
 
-const permission = "ADDUSER";
-router.post("/", authenticate(permission), (req, res) => {
+const permissions = {
+  add: "ADDUSER",
+};
+router.post("/add", authenticate(permissions.add), (req, res) => {
   const { coCluster } = req.app.locals;
-  collection = coCluster.db("Accounts").collection("Users");
+  const collection = coCluster.db("Accounts").collection("Users");
 
   const user = req.body;
 

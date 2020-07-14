@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const config = {
   dbUriClient: process.env.DB_URI_CLIENT,
   dbUriCompany: process.env.DB_URI_COMPANY,

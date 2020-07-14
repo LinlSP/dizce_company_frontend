@@ -1,6 +1,6 @@
 const store = require("./store");
 
-function addUser(collection, user) {
+const addUser = (collection, user) => {
   const { nick, name, password, role, country } = user;
   const nickMinLength = 5;
   const nameMinLength = 6;
@@ -27,11 +27,11 @@ function addUser(collection, user) {
     });
   }
   return store.add(collection, user);
-}
+};
 
-function listUsers() {
+const listUsers = () => {
   return store.list();
-}
+};
 
 module.exports = {
   addUser,

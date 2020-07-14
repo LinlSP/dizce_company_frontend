@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
+const formData = require("express-form-data");
+const os = require("os");
 const router = express.Router();
-require("dotenv").config();
 
 const config = require("./config");
 const connectDB = require("./db");
@@ -10,9 +11,16 @@ const routes = require("./network/routes");
 const app = express();
 const { dbUriClient, dbUriCompany, port, host } = config;
 
+const imagesUploadOptions = {
+  uploadDir: os.tmpdir(),
+  autoClean: true,
+};
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(formData.parse(imagesUploadOptions));
+app.use(formData.format());
+app.use(formData.union());
 
 routes(router);
 app.use("/api", router);

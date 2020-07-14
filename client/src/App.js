@@ -1,20 +1,50 @@
 import React, { useContext, useEffect } from "react";
 import { Router, Redirect } from "@reach/router";
+import axios from "axios";
 
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "./Contexts/AuthContext";
 
 import { GlobalStyles } from "./styles/GlobalStyles";
 import { Error } from "./pages/Error";
 import { Login } from "./pages/Login";
-import { Home } from "./pages/Home";
 import { Loader } from "./pages/Loader";
+import { RoleHoc } from "./hoc/RoleHoc";
 
 export const App = () => {
   const { authState, authDispatch } = useContext(AuthContext);
-  const { authenticated, error, loading } = authState;
+  const { jwt, authenticated, error, loading, role } = authState;
+
+  const landingAuth = () => {
+    if (jwt === null) {
+      return authDispatch({ type: "badAuth" });
+    }
+    axios
+      .post(
+        "/api/company/login",
+        {},
+        {
+          headers: {
+            Authorization: "Bearer" + " " + jwt,
+          },
+        }
+      )
+      .then(({ data }) => {
+        return authDispatch({
+          type: "authorized",
+          parameters: { role: data.response },
+        });
+      })
+      .catch(({ response }) => {
+        if (response.status === 500) {
+          return authDispatch({ type: "internalError" });
+        }
+        return authDispatch({ type: "badAuth" });
+      });
+  };
 
   useEffect(() => {
-    authDispatch({ type: "landingAuth" });
+    landingAuth();
+    return;
   }, []);
   ////////////////////////
   if (error) {
@@ -37,10 +67,7 @@ export const App = () => {
   return (
     <>
       <GlobalStyles />
-      <Router>
-        <Home path="/" />
-        <Redirect from="/*" to="/" default noThrow />
-      </Router>
+      <RoleHoc role={role} />
     </>
   );
 };

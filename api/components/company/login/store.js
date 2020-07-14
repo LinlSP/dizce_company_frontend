@@ -39,7 +39,7 @@ async function login(req, collection, { nick, password }) {
       createdAt: new Date(),
     });
 
-    return { accesToken: accesToken };
+    return { accesToken: accesToken, role: role };
   } catch (error) {
     console.log(error);
     return Promise.reject({});

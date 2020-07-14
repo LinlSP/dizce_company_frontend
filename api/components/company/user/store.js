@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
-async function addUser(collection, user) {
+const addUser = async (collection, user) => {
   const { nick, name, password, role, country } = user;
   try {
     const coincidences = await collection
@@ -28,9 +28,9 @@ async function addUser(collection, user) {
     console.log(error);
     return Promise.reject({});
   }
-}
+};
 
-async function listUsers() {}
+const listUsers = async () => {};
 
 module.exports = {
   add: addUser,

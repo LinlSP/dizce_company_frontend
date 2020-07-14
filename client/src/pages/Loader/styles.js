@@ -48,6 +48,6 @@ export const LoaderText = styled.div`
   top: 5vh;
   font-size: 6vh;
   letter-spacing: 1vw;
-  margin-right: -5vw;
+  margin-right: -1vw;
   color: black;
 `;

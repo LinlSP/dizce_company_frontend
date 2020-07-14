@@ -26,6 +26,7 @@ module.exports = (required_permission = "") => {
           403
         );
       }
+      req.user = user;
       next();
     });
   };

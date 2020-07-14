@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 
-import { AuthContext } from "../../AuthContext";
+import { AuthContext } from "../../Contexts/AuthContext";
 import { Title, Form, Input, SubmitButton, ServerMsg } from "./styles";
 
 import logo from "../../assets/logo2.png";
@@ -15,7 +15,7 @@ export const Login = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    setRequest({ message: message, loading: true });
+    setRequest({ message: "", loading: true });
     const nick = document.querySelector("#nick").value;
     const password = document.querySelector("#password").value;
     const user = {
@@ -27,14 +27,15 @@ export const Login = () => {
       .then(({ data }) => {
         // I know this isn't a good practice for security reasons (Http only cookie would be better), but
         // such methods are impractical for the purposes of this project
-        window.localStorage.setItem("dizce_jwt", data.response.accesToken);
-        authDispatch({ type: "authorized" });
+        const { accesToken, role } = data.response;
+        window.localStorage.setItem("dizce_jwt", accesToken);
+        authDispatch({ type: "authorized", parameters: { role: role } });
         return;
       })
       .catch(({ response }) => {
-        const error = response.data.error;
+        const { error } = response.data;
         if (response.status === 500) {
-          return authDispatch({ type: "error" });
+          return authDispatch({ type: "internalError" });
         }
         setRequest({ message: error, loading: false });
         return;
@@ -49,6 +50,7 @@ export const Login = () => {
       </Title>
       <Input
         id="nick"
+        name="nick"
         className="form-control"
         type="text"
         placeholder="NICK"
@@ -57,6 +59,7 @@ export const Login = () => {
       />
       <Input
         id="password"
+        name="password"
         className="form-control"
         type="password"
         placeholder="PASSWORD"

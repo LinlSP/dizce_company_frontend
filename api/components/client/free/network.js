@@ -1,11 +1,26 @@
 const router = require("express").Router();
-router.get("/", function (req, res) {
+const response = require("../../../network/response");
+const controller = require("./controller");
+const authenticate = require("../../../middlewares/authenticate");
+
+const permissions = {
+  add: "ADDFREE",
+};
+
+router.post("/add", authenticate(permissions.add), function (req, res) {
   const { cliCluster } = req.app.locals;
-  // cliCluster.db("Accounts").collection("Workers").insertOne({
-  //   name: "lincolsito",
-  //   age: 18,
-  // });
-  res.send("This is free");
+  const collection = cliCluster.db("Free").collection("Websites");
+  const user = req.user;
+  const site = req.body;
+
+  controller
+    .addSite(collection, user, site)
+    .then((msg) => {
+      response.success(req, res, msg, 201);
+    })
+    .catch(({ error, status }) => {
+      response.error(req, res, error, status);
+    });
 });
 
 module.exports = router;
