@@ -3,7 +3,6 @@ import { Container, Menu } from "./styles";
 
 export const Users = ({ role }) => {
   const allMethods = [
-    { name: "Update", route: "/users/update" },
     { name: "Add", route: "/users/add" },
     { name: "Delete", route: "/users/delete" },
     { name: "Active Users", route: "/users/active" },

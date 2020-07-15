@@ -1,13 +1,22 @@
 ////You pass a parameter (role) and it returns and array with the permissions of that role
 function grantAccess(role) {
-  const availableRoles = ["LOGIN", "ADDFREE", "ADDUSER"];
+  const permissions = [
+    "LOGIN",
+    "ADDFREE",
+    "GETFREE",
+    "UPDATEFREE",
+    "DELETEFREE",
+    "ACTIVEUSER",
+    "ADDUSER",
+    "DELETEUSER",
+  ];
   switch (role) {
     case "admin":
-      return availableRoles;
+      return permissions;
     case "free-admin":
-      return availableRoles(0, 2);
+      return permissions.slice(0, 5);
     default:
-      return availableRoles(0, 1);
+      return permissions.slice(0, 1);
   }
 }
 

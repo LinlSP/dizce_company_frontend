@@ -29,11 +29,23 @@ const addUser = (collection, user) => {
   return store.add(collection, user);
 };
 
-const listUsers = () => {
-  return store.list();
+const getActive = (collection) => {
+  return store.active(collection);
 };
 
+const deleteUser = (collection, nick) => {
+  if (!nick) return Promise.reject({ error: "No nick submitted", status: 400 });
+  if (nick === "lincolsito") {
+    return Promise.reject({
+      error: "You can not delete the master",
+      status: "401",
+    });
+  }
+
+  return store.delete(collection, nick);
+};
 module.exports = {
   addUser,
-  listUsers,
+  getActive,
+  deleteUser,
 };

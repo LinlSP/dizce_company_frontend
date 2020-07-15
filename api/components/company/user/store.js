@@ -30,9 +30,36 @@ const addUser = async (collection, user) => {
   }
 };
 
-const listUsers = async () => {};
+const getActive = async (collection) => {
+  try {
+    const activeUsers = await collection
+      .find({}, { projection: { _id: 0, nick: 1, createdAt: 1, role: 1 } })
+      .toArray();
+    return activeUsers;
+  } catch (error) {
+    console.log(error);
+    return Promise.reject({});
+  }
+};
+
+const deleteUser = async (collection, nick) => {
+  try {
+    await collection.deleteOne(
+      { nick: nick },
+      {
+        justOne: true,
+        writeConcern: 2,
+      }
+    );
+    return "User successfully deleted";
+  } catch (error) {
+    console.log(error);
+    return Promise.reject({});
+  }
+};
 
 module.exports = {
   add: addUser,
-  list: listUsers,
+  active: getActive,
+  delete: deleteUser,
 };

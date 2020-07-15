@@ -30,13 +30,12 @@ async function login(req, collection, { nick, password }) {
     const { role } = userDocument;
     const user = { nick: nick, role: role };
     const accesToken = jwt.sign(user, jwtSecret, { expiresIn: "2h" });
-    //////////////// STORE REFRESH TOKEN
 
     await sessionCol.insertOne({
       nick: nick,
       role: role,
       jwt: accesToken,
-      createdAt: new Date(),
+      createdAt: Date.now(),
     });
 
     return { accesToken: accesToken, role: role };

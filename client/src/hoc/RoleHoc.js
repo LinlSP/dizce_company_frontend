@@ -7,6 +7,7 @@ import { Home } from "../components/Home";
 import { Free } from "../components/Free";
 import { Users } from "../components/Users";
 import { AddFree } from "../components/Free/AddFree";
+import { UpdateFree } from "../components/Free/UpdateFree";
 
 const navRoutes = [
   { component: "Free", route: "/free" },
@@ -14,11 +15,10 @@ const navRoutes = [
 ];
 const renderRoutes = [
   { component: Free, route: "/free" },
-  // { component: UpdateFree, route: "/free/update" },
+  { component: UpdateFree, route: "/free/update" },
   { component: AddFree, route: "/free/add" },
   // { component: DeleteFree, route: "/free/delete" },
   { component: Users, route: "/users" },
-  // { component: UpdateUser, route: "/users/update" },
   // { component: AddUser, route: "/users/add" },
   // { component: DeleteUser, route: "/users/delete" },
   // { component: ActiveUser, route: "/users/active" },

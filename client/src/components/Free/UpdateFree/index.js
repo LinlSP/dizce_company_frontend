@@ -10,13 +10,25 @@ import { tags, previewImg, fields, languagesOptions } from "../envConstants";
 
 //////It is easier to get all the fields of a form with the constructor than with states,
 //////That's why I am not using states for the form
-export const AddFree = () => {
+export const UpdateFree = () => {
   const { authState } = useContext(AuthContext);
   const { jwt } = authState;
 
   const [selected, setSelected] = useState([]);
   const [language, setLanguage] = useState("none");
   const [loading, setLoading] = useState(false);
+
+  const setValuesInForm = (object) => {
+    const { name, language, phrase, description, url, tags, logoUrl } = object;
+    document.querySelector("#img-preview").src = logoUrl;
+    document.querySelector("#name").value = name;
+    document.querySelector("#phrase").value = phrase;
+    document.querySelector("#url").value = url;
+    document.querySelector("#description").value = description;
+    setLanguage(language);
+    setSelected(tags);
+    return;
+  };
 
   const resetForm = (form) => {
     form.reset();
@@ -26,26 +38,28 @@ export const AddFree = () => {
     return;
   };
 
-  const onSubmit = (e) => {
+  const onUpdate = (e) => {
     e.preventDefault();
     const tags = selected.map(({ value }) => value);
     const addform = document.querySelector("#add-form");
+    const prevLogoUrl = document.querySelector("#img-preview").src;
     const formData = new FormData(addform);
     formData.append("tags", tags);
+    formData.append("prevLogoUrl", prevLogoUrl);
 
     return Swal.fire({
       title: "Are you sure?",
-      text: "Check the fields again",
+      text: "Update only the necessary",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, add website!",
+      confirmButtonText: "Yes, update site!",
     }).then((result) => {
       if (result.value) {
         setLoading(true);
         axios
-          .post("/api/client/free/add", formData, {
+          .put("/api/client/free/update", formData, {
             headers: {
               "Content-Type": "multipart/form-data",
               Authorization: "Bearer" + " " + jwt,
@@ -55,7 +69,7 @@ export const AddFree = () => {
             const { response } = data;
             resetForm(addform);
             setLoading(false);
-            return Swal.fire("Added!", response, "success");
+            return Swal.fire("Updated!", response, "success");
           })
           .catch(({ response }) => {
             const { error } = response.data;
@@ -66,9 +80,56 @@ export const AddFree = () => {
     });
   };
 
+  const getSite = () => {
+    const name = document.querySelector("#getSite").value;
+    setLoading(true);
+    axios
+      .get("/api/client/free/get", {
+        params: {
+          name: name,
+        },
+        headers: {
+          Authorization: "Bearer" + " " + jwt,
+        },
+      })
+      .then(({ data }) => {
+        const { response } = data;
+        setValuesInForm(response);
+        return setLoading(false);
+      })
+      .catch(({ response }) => {
+        const { error } = response.data;
+        Swal.fire("Canceled", error, "error");
+        return setLoading(false);
+      });
+  };
+
   return (
     <Container className="container">
-      <AddForm id="add-form" onSubmit={(e) => onSubmit(e)}>
+      <div>Be careful and use the update tool with caution</div>
+      <input
+        placeholder="Site to get"
+        style={{ marginBottom: `${2 * vh}px` }}
+        id="getSite"
+        className="form-control"
+        type="text"
+      />
+      <button
+        style={{ width: "100%", marginBottom: `${2 * vh}px` }}
+        className="btn btn-success"
+        onClick={() => getSite()}
+      >
+        Get
+      </button>
+      <button
+        style={{ width: "100%", marginBottom: `${10 * vh}px` }}
+        className="btn btn-danger"
+        onClick={() => resetForm(document.querySelector("#add-form"))}
+      >
+        Cancel
+      </button>
+
+      <AddForm id="add-form" onSubmit={(e) => onUpdate(e)}>
         <div
           id="file-preview"
           className="input-file"
@@ -110,7 +171,6 @@ export const AddFree = () => {
           extra={"display: none;"}
           onChange={(e) => previewImg(e)}
           disabled={loading}
-          required
         />
 
         {fields.map(({ name, placeholder, type, classN }, index) => (
@@ -162,6 +222,7 @@ export const AddFree = () => {
         </SelectWrapper>
 
         <textarea
+          id="description"
           name="description"
           placeholder="DESCRIPTION"
           className="form-control"
@@ -173,7 +234,7 @@ export const AddFree = () => {
         <Input
           disabled={loading}
           type="submit"
-          value="Add"
+          value="Update"
           className="btn btn-primary"
         />
       </AddForm>
