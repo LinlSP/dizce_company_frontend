@@ -113,7 +113,7 @@ const deleteSite = async (collection, name, language) => {
     const { result } = await cloudinary.uploader.destroy(logo_publicID);
     if (result === "not found")
       return Promise.reject({
-        error: "logo publicID not found",
+        error: "Site not found",
         status: "400",
       });
     await collection.deleteOne(

@@ -60,7 +60,7 @@ router.put("/update", authenticate(permissions.update), (req, res) => {
 router.delete("/delete", authenticate(permissions.delete), (req, res) => {
   const { cliCluster } = req.app.locals;
   const collection = cliCluster.db("Free").collection("Websites");
-  const { name, language } = req.body;
+  const { name, language } = req.query;
 
   controller
     .deleteSite(collection, name, language)
