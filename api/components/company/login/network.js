@@ -3,8 +3,7 @@ const response = require("../../../network/response");
 const { login } = require("./controller");
 const authenticate = require("./loginAuth");
 
-const permission = "LOGIN";
-router.post("/", authenticate(permission), (req, res) => {
+router.post("/", authenticate, (req, res) => {
   const { coCluster } = req.app.locals;
   collection = coCluster.db("Accounts").collection("Users");
 

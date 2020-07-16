@@ -9,6 +9,9 @@ import { Users } from "../components/Users";
 import { AddFree } from "../components/Free/AddFree";
 import { UpdateFree } from "../components/Free/UpdateFree";
 import { DeleteFree } from "../components/Free/DeleteFree";
+import { AddUser } from "../components/Users/AddUser";
+import { DeleteUser } from "../components/Users/DeleteUser";
+import { ActiveUser } from "../components/Users/ActiveUser";
 
 const navRoutes = [
   { component: "Free", route: "/free" },
@@ -16,13 +19,13 @@ const navRoutes = [
 ];
 const renderRoutes = [
   { component: Free, route: "/free" },
-  { component: UpdateFree, route: "/free/update" },
   { component: AddFree, route: "/free/add" },
+  { component: UpdateFree, route: "/free/update" },
   { component: DeleteFree, route: "/free/delete" },
   { component: Users, route: "/users" },
-  // { component: AddUser, route: "/users/add" },
-  // { component: DeleteUser, route: "/users/delete" },
-  // { component: ActiveUser, route: "/users/active" },
+  { component: ActiveUser, route: "/users/active" },
+  { component: AddUser, route: "/users/add" },
+  { component: DeleteUser, route: "/users/delete" },
 ];
 
 export const RoleHoc = ({ role }) => {
@@ -32,6 +35,10 @@ export const RoleHoc = ({ role }) => {
         return [navRoutes, renderRoutes];
       case "free-admin":
         return [navRoutes.slice(0, 1), renderRoutes.slice(0, 4)];
+      case "users-admin":
+        return [navRoutes.slice(1, 2), renderRoutes.slice(4, 8)];
+      case "users-active":
+        return [navRoutes.slice(1, 2), renderRoutes.slice(4, 6)];
       default:
         return;
     }

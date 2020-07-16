@@ -43,7 +43,7 @@ router.delete("/delete", authenticate(permissions.delete), (req, res) => {
   const { coCluster } = req.app.locals;
   const collection = coCluster.db("Accounts").collection("Users");
 
-  const { nick } = req.body;
+  const { nick } = req.query;
 
   controller
     .deleteUser(collection, nick)

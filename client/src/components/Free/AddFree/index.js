@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../../../Contexts/AuthContext";
-
 import { Container, AddForm, Input, PreviewImg, SelectWrapper } from "./styles";
 import { vh } from "../../../styles/Height";
 import MultiSelect from "react-multi-select-component";
@@ -85,6 +84,7 @@ export const AddFree = () => {
               width: "100%",
               textAlign: "center",
               marginBottom: `${1 * vh}px`,
+              cursor: "pointer",
             }}
             className="custom-file-label"
             htmlFor="logo"
@@ -176,6 +176,17 @@ export const AddFree = () => {
           value="Add"
           className="btn btn-primary"
         />
+        <div
+          className="btn btn-danger"
+          style={{
+            width: "100%",
+            marginBottom: `${2 * vh}px`,
+            cursor: "pointer",
+          }}
+          onClick={() => resetForm(document.querySelector("#add-form"))}
+        >
+          Cancel
+        </div>
       </AddForm>
     </Container>
   );

@@ -44,13 +44,16 @@ const getActive = async (collection) => {
 
 const deleteUser = async (collection, nick) => {
   try {
-    await collection.deleteOne(
+    const { deletedCount } = await collection.deleteOne(
       { nick: nick },
       {
         justOne: true,
         writeConcern: 2,
       }
     );
+    if (deletedCount === 0) {
+      return Promise.reject({ error: "User not found", status: 400 });
+    }
     return "User successfully deleted";
   } catch (error) {
     console.log(error);
