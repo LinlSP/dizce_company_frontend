@@ -1,1 +1,1 @@
-# dizce_company
+# Frontend of dizce company
