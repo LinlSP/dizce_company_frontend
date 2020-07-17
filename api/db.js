@@ -9,6 +9,8 @@ async function connectDB(uri, clusterName) {
     console.log(`Successfuly connected to ${clusterName} cluster`);
     return db;
   }
+
+  return Promise.reject("Problem with DB connection");
 }
 
 module.exports = connectDB;

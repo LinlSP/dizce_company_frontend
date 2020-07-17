@@ -86,15 +86,19 @@ export const ActiveUser = () => {
         ))}
       </div>
       <ResultsWrapper display={!loading ? 1 : 0} style={{ width: "100%" }}>
-        {activeUsers.map(({ nick, createdAt, role }, index) => (
-          <div style={{ display: "flex", width: "100%" }} key={index}>
-            <Result>{nick}</Result>
-            <Result>
-              {Math.floor((Date.now() - createdAt) / 60000)} minutes ago
-            </Result>
-            <Result>{role}</Result>
-          </div>
-        ))}
+        {activeUsers.map(({ nick, createdAt, role }, index) => {
+          const sessionTime = new Date(createdAt);
+          return (
+            <div style={{ display: "flex", width: "100%" }} key={index}>
+              <Result>{nick}</Result>
+              <Result>
+                {Math.floor((Date.now() - sessionTime.getTime()) / 60000)}{" "}
+                minutes ago
+              </Result>
+              <Result>{role}</Result>
+            </div>
+          );
+        })}
       </ResultsWrapper>
     </Container>
   );

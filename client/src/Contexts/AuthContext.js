@@ -2,7 +2,6 @@ import React, { createContext, useReducer } from "react";
 export const AuthContext = createContext();
 
 const authReducer = (state, action) => {
-  const jwt = state.jwt;
   const { type, parameters } = action;
   switch (type) {
     case "badAuth":
@@ -14,6 +13,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         loading: false,
+        jwt: window.localStorage.getItem("dizce_jwt"),
         authenticated: true,
         role: parameters.role,
       };

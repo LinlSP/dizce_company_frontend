@@ -35,7 +35,7 @@ async function login(req, collection, { nick, password }) {
       nick: nick,
       role: role,
       jwt: accesToken,
-      createdAt: Date.now(),
+      createdAt: new Date(),
     });
 
     return { accesToken: accesToken, role: role };
