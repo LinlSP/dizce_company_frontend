@@ -19,6 +19,7 @@ export const UpdateFree = () => {
   const [loading, setLoading] = useState(false);
 
   const setValuesInForm = (object) => {
+    object.tags = object.tags.map((tag) => ({ label: tag, value: tag }));
     const { name, language, phrase, description, url, tags, logoUrl } = object;
     document.querySelector("#img-preview").src = logoUrl;
     document.querySelector("#name").value = name;
