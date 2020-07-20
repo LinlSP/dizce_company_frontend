@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --mode 'development' && cp -a ./dist/. ../../api/public/",
-    "prod": "webpack --mode 'production' && cp -a ./dist/. ../../api/public/",
+    "dev": "webpack --mode 'development' && cp -a ./dist/. ../api/public/",
+    "prod": "webpack --mode 'production' && cp -a ./dist/. ../api/public/",
     "server": "webpack --mode 'development' && webpack-dev-server --port 3000 --host 192.168.137.1 --history-api-fallback"
   },
   "author": "Lincol Saenz",
